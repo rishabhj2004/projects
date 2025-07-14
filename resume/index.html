@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="https://code.jquery.com/jquery-1.11.1.min.js"></script>
+<script src="js/jquery.serializejson.js"></script>
+<head>
+    <meta charset="UTF-8">
+    <title>Rishabh-Resume</title>
+    <style>
+        canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            z-index: -1;
+        }
+        body {
+            margin: 0;
+            font-family: sans-serif;
+            color: white;
+            padding: 2rem;
+            background: transparent;
+        }
+        li{
+            font-size:2vw;
+            color:#E5F4E3;
+        }
+        h2{
+            font-size:2.5vw;
+            color:#DCD427;
+        }
+        p{
+            font-size:1.5vw;
+            color:#DADFF7;
+        }
+        .resume {
+            position: relative;
+            z-index: 1;
+            max-width: 800px;
+            margin: auto;
+            background-color: rgba(0,0,0,0.5); /* slight background for text readability */
+            padding: 2rem;
+            border-radius: 10px;
+            
+        }
+    </style>
+</head>
+<body>
+    <canvas></canvas>
+    <div class="resume">
+        <h1 style="text-align:center;font-size:4vw;color:#FF7F11 ">Rishabh Jain</h1>
+        <p align="center">91-7975020291 | rishabhj2004@gmail.com | Bangalore, India</p>
+        <h2>My Projects</h2>
+        <ul>
+            <li>Space Invaders
+            <p>An engaging single player game that goes on until the player looses. Color variety, music
+                variety, each for line-fill, player loss and background audio. Score count shown. A good project to learn more about classes in python and get to know more about the pygame library.<p></li>
+            <li>E-Post Office Management System
+                <p>This project offers users a seamless and accessible way to purchase a variety of postal
+products and essential services, including stamps, courier services, and mobile card sales. Implemented databases and created a server using node.js. Built a working website with client and server interaction.</p>
+            </li>
+        </ul>
+        <!-- Add skills, certifications, internship and additional info(education and hobbies) -->
+    </div>
+
+    <script src="canvas.js"></script> 
+</body>
+</html>
+

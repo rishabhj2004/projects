@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Services - E-Post Office</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <style>
+        .sidebar {
+            height: 100%;
+            width: 200px;
+            position: fixed;
+            top: 0;
+            left: 0;
+            background-color: #333;
+            padding-top: 20px;
+            color: #fff;
+            font-size: 18px;
+            text-align: left;
+        }
+        .sidebar a {
+            padding: 15px;
+            text-decoration: none;
+            font-size: 18px;
+            color: white;
+            display: block;
+            transition: 0.3s;
+        }
+        .sidebar a:hover {
+            background-color: #575757;
+        }
+        .content {
+            margin-left: 220px;
+            padding: 20px;
+        }
+        .container {
+            width: 80%;
+            margin: 0 auto;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+    </style>
+</head>
+<body>
+    <div class="sidebar">
+        <a href="profile.html">Profile</a>
+        <a href="post-history.html">Post History</a>
+        <a href="login.html">Logout</a>
+    </div>
+    <div class="content">
+    <div class="container">
+        <h1>Service Request Form</h1>
+        <form id="serviceForm" enctype="multipart/form-data">
+            <label for="address">Address:</label>
+            <input type="text" id="address" name="address" required>
+
+            <label for="file">Upload File:</label>
+            <input type="file" id="file" name="file" required>
+
+            <button type="submit">Submit</button>
+        </form>
+
+        <div id="response"></div>
+    </div>
+    </div>
+
+    <script>
+        document.getElementById('serviceForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+
+            const formData = new FormData();
+            formData.append('address', document.getElementById('address').value);
+            formData.append('file', document.getElementById('file').files[0]);
+
+            fetch('/submit-service', {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => response.json())
+            .then(data => {
+                document.getElementById('response').innerText = data.message;
+            })
+            .catch(error => console.error('Error:', error));
+        });
+    </script>
+</body>
+</html>
+

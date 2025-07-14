@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script src="https://code.jquery.com/jquery-1.11.1.min.js"></script>
+    <script src="js/jquery.serializejson.js"></script>
+    <style>
+        body { font-family: Arial, Helvetica, sans-serif; }
+        * { box-sizing: border-box }
+
+        input[type=text], input[type=password], input[type=email] {
+            width: 100%;
+            padding: 15px;
+            margin: 5px 0 22px 0;
+            display: inline-block;
+            border: none;
+            background: #f1f1f1;
+        }
+
+        input[type=text]:focus, input[type=password]:focus, input[type=email]:focus {
+            background-color: #ddd;
+            outline: none;
+        }
+
+        hr {
+            border: 1px solid #f1f1f1;
+            margin-bottom: 25px;
+        }
+
+        button {
+            background-color: #04AA6D;
+            color: white;
+            padding: 14px 20px;
+            margin: 8px 0;
+            border: none;
+            cursor: pointer;
+            width: 100%;
+            opacity: 0.9;
+        }
+
+        button:hover {
+            opacity: 1;
+        }
+
+        .imgcontainer {
+            text-align: center;
+            margin: 24px 0 12px 0;
+        }
+
+        img.avatar {
+            width: 40%;
+            border-radius: 50%;
+        }
+
+        .cancelbtn {
+            padding: 14px 20px;
+            background-color: #f44336;
+        }
+
+        .cancelbtn, .signupbtn {
+            float: left;
+            width: 50%;
+        }
+
+        .container {
+            padding: 16px;
+        }
+
+        .clearfix::after {
+            content: "";
+            clear: both;
+            display: table;
+        }
+
+        @media screen and (max-width: 300px) {
+            .cancelbtn, .signupbtn {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <h2>Sign Up</h2>
+
+    <form id="id1" action="javascript://" style="border:1px solid #ccc" method="signin">
+        <div class="imgcontainer">
+            <img src="yu.png" alt="Avatar" class="avatar">
+        </div>
+        <div class="container">
+            <p>Please fill in this form to create an account.</p>
+            <hr>
+
+            <label for="uname"><b>Username</b></label>
+            <input type="text" placeholder="Enter Username" name="uname" required>
+
+            <label for="email"><b>Email</b></label>
+            <input type="email" placeholder="Enter Email" name="email" required>
+
+            <label for="psw"><b>Password</b></label>
+            <input type="password" placeholder="Enter Password" name="psw" required>
+
+            <label for="psw-repeat"><b>Repeat Password</b></label>
+            <input type="password" placeholder="Repeat Password" name="psw-repeat" required>
+
+            <label>
+                <input type="checkbox" checked="checked" name="remember" style="margin-bottom:15px"> Remember me
+            </label>
+
+            <p>By creating an account you agree to our <a href="#" style="color:dodgerblue">Terms & Privacy</a>.</p>
+
+            <div class="clearfix">
+                <button type="button" class="cancelbtn">Cancel</button>
+                <button type="button" id="submitButton" class="signupbtn">Sign Up</button>
+            </div>
+        </div>
+        <p>Already have an account? <a href="login.html">Login here</a></p>
+    </form>
+
+    <script>
+    $(document).ready(function(){
+        // click on button submit
+        $("#submitButton").on('click', function(){
+            console.log("Rishabh : " + JSON.stringify( $('#id1').serializeJSON()));
+            // send ajax
+            $.ajax({
+                url: 'http://localhost:3001/signin', // url where to submit the request
+                type : "POST", // type of action signin || GET
+                dataType : 'json', // data type
+                data : JSON.stringify($("#id1").serializeJSON()), // post data || get data
+                success : function(result) {
+                    // you can see the result from the console
+                    console.log(result);
+                    alert(result.result);
+                    if(result.result=="Alright, you are signed in"){
+                        window.location.href = 'login.html';
+                    }
+                },
+                error: function(xhr, resp, text) {
+                    console.log(xhr, resp, text);
+                }
+            })
+        });
+    });
+    </script>
+
+</body>
+</html>
+
+

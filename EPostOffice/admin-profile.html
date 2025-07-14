@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Profile - E-Post Office</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <style>
+        body { font-family: Arial, Helvetica, sans-serif; }
+        * { box-sizing: border-box; }
+        
+        .container {
+            width: 50%;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f1f1f1;
+            border-radius: 10px;
+            text-align: center;
+        }
+
+        h2 {
+            margin-bottom: 30px;
+        }
+
+        .profile-details {
+            background-color: white;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .profile-details p {
+            font-size: 18px;
+            line-height: 1.6;
+        }
+
+        .profile-details label {
+            font-weight: bold;
+        }
+
+        .profile-details span {
+            font-size: 16px;
+            color: #555;
+        }
+
+        button {
+            background-color: #04AA6D;
+            color: white;
+            padding: 14px 20px;
+            margin: 20px 0;
+            border: none;
+            cursor: pointer;
+            width: 100%;
+            opacity: 0.9;
+        }
+
+        button:hover {
+            opacity: 1;
+        }
+
+        a {
+            color: dodgerblue;
+            text-decoration: none;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h2>User Profile</h2>
+        <div class="profile-details">
+            <p><label for="username">Username:</label> <span id="username"></span></p>
+            <p><label for="email">Email:</label> <span id="email"></span></p>
+            <p><label for="register-date">Registered On:</label> <span id="register-date"></span></p>
+            <p><b>Status: Admin<b></p>
+        </div>
+        
+        <button onclick="window.location.href = 'admin-home.html';">Go to Home</button>
+    </div>
+
+    <script>
+$(document).ready(function() {
+    // Fetch the user profile data from the server
+    $.ajax({
+        url: 'http://localhost:3001/profile',  // Adjust the URL to match your backend route
+        type: 'GET',
+        dataType: 'json',
+        success: function(response) {
+            if(response.result === 'success') {
+                // Populate the profile fields with the returned data
+                $('#username').text(response.profile.username);  // Use response.profile
+                $('#email').text(response.profile.email);        // Use response.profile
+                $('#register-date').text(response.profile.register_date);  // Use response.profile
+            } else {
+                alert(response.message);  // Show error message
+            }
+        },
+        error: function(xhr, status, error) {
+            console.error('Error fetching profile data:', error);
+            alert('Error fetching profile data. Please try again later.');
+        }
+    });
+});
+    
+    </script>
+
+</body>
+</html>
+
+

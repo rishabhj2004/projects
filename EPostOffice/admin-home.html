@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin-Home - E-Post Office</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <style>
+        /* Sidebar styling for Profile, Post History, and Logout */
+        .sidebar {
+            height: 100%;
+            width: 200px;
+            position: fixed;
+            top: 0;
+            left: 0;
+            background-color: #333;
+            padding-top: 20px;
+            color: #fff;
+            font-size: 18px;
+            text-align: left;
+        }
+        .sidebar a {
+            padding: 15px;
+            text-decoration: none;
+            font-size: 18px;
+            color: white;
+            display: block;
+            transition: 0.3s;
+        }
+        .sidebar a:hover {
+            background-color: #575757;
+        }
+        /* Main content stylizing */
+        main {
+            margin-left: 220px;
+            padding: 20px;
+        }
+        .service-links {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            justify-content: center;
+            margin-top: 30px;
+        }
+        .service-link {
+            background-color: #4CAF50;
+            color: white;
+            padding: 20px;
+            width: 200px;
+            text-align: center;
+            font-size: 18px;
+            border-radius: 8px;
+            text-decoration: none;
+            transition: 0.3s;
+        }
+        .service-link:hover {
+            background-color: #45a049;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Sidebar with Profile, Post History, and Logout -->
+    <div class="sidebar">
+        <a href="admin-profile.html">Profile</a>
+        <a href="login.html">Logout</a>
+    </div>
+
+    <!-- Main Content with Stylized Service Links -->
+    <main>
+        <h1>Welcome to the E-Post Office, Admin!</h1>
+        <p>Your digital gateway to all postal services!</p>
+
+        <div class="service-links">
+            <a href="services-status.html" class="service-link">Services status</a>
+            <a href="pincode.html" class="service-link">Pincode Search</a>
+            <a href="complaints-history.html" class="service-link">Complaints history</a>
+        </div>
+    </main>
+
+</body>
+</html>
+
+
