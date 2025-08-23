@@ -122,3 +122,6 @@ with torch.no_grad():
             if ix == 0 or len(out) > 30:
                 break
         print("".join(itos[i] for i in out))
+
+plt.plot(stepi,lossi)
+plt.show()
