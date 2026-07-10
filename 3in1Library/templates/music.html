@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Music Player</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <a href="/" class="backbutton">
+        <img src="{{ url_for('static', filename='icons/back.png') }}" class="back-icon">
+    </a>
+
+    <h1>My Music Player</h1>
+    
+    <div class="form-container">
+        <ul style="list-style-type: none; padding: 0;">
+            {% for song in songs %}
+                <li style="margin-bottom: 20px; padding: 15px; background: #2c2f33; border-radius: 8px;">
+                    <p style="color: white; margin-bottom: 10px; font-weight: bold;">🎵 {{ song }}</p>
+                    <audio controls style="width: 100%;">
+                        <source src="{{ url_for('static', filename='music/' + song) }}" type="audio/mpeg">
+                        Your browser does not support the audio element.
+                    </audio>
+                </li>
+            {% else %}
+                <p style="color: white;">No MP3s found in static/music/ yet!</p>
+            {% endfor %}
+        </ul>
+    </div>
+</body>
+</html>

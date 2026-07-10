@@ -4,8 +4,10 @@
 int main()
 {
     Maze maze;
-    maze.addWall(5,7,Direction::North);
-    std::cout<<maze.hasWall(5,7,Direction::North)<<"\n";
-    std::cout<<maze.hasWall(4,7,Direction::South)<<"\n";
+    maze.addWall(0,0,Direction::North);
+    maze.addWall(0,0,Direction::West);
+    maze.addWall(0,0,Direction::East);
+    maze.addWall(0,0,Direction::South);
+    maze.print();
     return 0;
 }

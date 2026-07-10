@@ -27,4 +27,5 @@ class Maze{
         const Cell& getCell(int row,int col) const;
         void addWall(int row,int col, Direction direction);
         bool hasWall(int row, int col, Direction direction) const;
+        void print() const;
 };

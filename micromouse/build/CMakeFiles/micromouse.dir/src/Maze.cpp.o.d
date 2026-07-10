@@ -1,7 +1,7 @@
 CMakeFiles/micromouse.dir/src/Maze.cpp.o: \
- /home/rishabh/Documents/allprojects/rishabh/library/Projects/micromouse/src/Maze.cpp \
+ /home/rishabh/library/projects/micromouse/src/Maze.cpp \
  /usr/include/stdc-predef.h \
- /home/rishabh/Documents/allprojects/rishabh/library/Projects/micromouse/include/Maze.hpp \
+ /home/rishabh/library/projects/micromouse/include/Maze.hpp \
  /usr/include/c++/13/vector /usr/include/c++/13/bits/requires_hosted.h \
  /usr/include/x86_64-linux-gnu/c++/13/bits/c++config.h \
  /usr/include/x86_64-linux-gnu/c++/13/bits/os_defines.h \

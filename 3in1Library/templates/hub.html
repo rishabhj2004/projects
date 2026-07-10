@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>My Media Hub</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=MedievalSharp&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Pixelify+Sans:wght@400..700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <h1>My Media Hub</h1>
+    <div class="hub-container" style="display: flex; justify-content: center; gap: 20px; margin-top: 50px;">
+        <a href="/games" class="game-card" style="font-size: 300%;text-decoration: none; padding: 20px; color:#79f207;font-family: 'Pixelify Sans'">Games</a>
+        <a href="/books" class="game-card" style="font-size: 300%;text-decoration: none; padding: 20px; color:#07eef2;font-family: 'MedievalSharp';">Books</a>
+        <a href="/music" class="game-card" style="font-size: 300%;text-decoration: none; padding: 20px; color:#f27c07;font-family: 'Great Vibes', cursive;">Music</a>
+    </div>
+</body>
+</html>

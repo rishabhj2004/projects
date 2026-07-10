@@ -54,10 +54,10 @@ RM = /usr/bin/cmake -E rm -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /home/rishabh/Documents/allprojects/rishabh/library/Projects/micromouse
+CMAKE_SOURCE_DIR = /home/rishabh/library/projects/micromouse
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /home/rishabh/Documents/allprojects/rishabh/library/Projects/micromouse/build
+CMAKE_BINARY_DIR = /home/rishabh/library/projects/micromouse/build
 
 #=============================================================================
 # Directory level rules for the build root directory
@@ -81,14 +81,14 @@ clean: CMakeFiles/micromouse.dir/clean
 CMakeFiles/micromouse.dir/all:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/micromouse.dir/build.make CMakeFiles/micromouse.dir/depend
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/micromouse.dir/build.make CMakeFiles/micromouse.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/rishabh/Documents/allprojects/rishabh/library/Projects/micromouse/build/CMakeFiles --progress-num=1,2,3 "Built target micromouse"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/rishabh/library/projects/micromouse/build/CMakeFiles --progress-num=1,2,3 "Built target micromouse"
 .PHONY : CMakeFiles/micromouse.dir/all
 
 # Build rule for subdir invocation for target.
 CMakeFiles/micromouse.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/rishabh/Documents/allprojects/rishabh/library/Projects/micromouse/build/CMakeFiles 3
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/rishabh/library/projects/micromouse/build/CMakeFiles 3
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 CMakeFiles/micromouse.dir/all
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/rishabh/Documents/allprojects/rishabh/library/Projects/micromouse/build/CMakeFiles 0
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/rishabh/library/projects/micromouse/build/CMakeFiles 0
 .PHONY : CMakeFiles/micromouse.dir/rule
 
 # Convenience name for target.

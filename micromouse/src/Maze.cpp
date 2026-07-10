@@ -89,4 +89,56 @@ bool Maze::hasWall(int row, int col, Direction direction) const
             return false;
     }
 }
-    
+
+void Maze::print() const
+{
+    for(int row=0;row<getRows();row++)
+    {
+        for(int col=0;col<getCols();col++)
+        {
+            std::cout<<"+";            
+            if(hasWall(row,col,Direction::North))
+            {
+                std::cout<<"---";
+            }
+            else
+            {
+                std::cout<<"   ";
+            }
+        }
+        std::cout<<"+\n";
+        for(int col=0;col<getCols();col++)
+        {
+            if(hasWall(row,col,Direction::West))
+            {
+                std::cout<<"|   ";
+            }
+            else
+            {
+                std::cout<<"    ";
+            }
+        }
+        if(hasWall(row,getCols()-1,Direction::East))
+        {
+            std::cout<<"|\n";
+        }
+        else
+        {
+            std::cout<<" \n";
+        }
+    }
+    for(int col=0;col<getCols();col++)
+    {
+        std::cout<<"+";
+        if(hasWall(getRows()-1,col,Direction::South))
+        {
+            std::cout<<"---";
+        }
+        else
+        {
+            std::cout<<"   ";
+        }
+    }
+    std::cout<<"+\n";
+}
+

@@ -4,7 +4,7 @@
 # compile CXX with /usr/bin/c++
 CXX_DEFINES = 
 
-CXX_INCLUDES = -I/home/rishabh/Documents/allprojects/rishabh/library/Projects/micromouse/include
+CXX_INCLUDES = -I/home/rishabh/library/projects/micromouse/include
 
 CXX_FLAGS = -std=gnu++20
 

@@ -8,8 +8,8 @@ set(CMAKE_DEPENDS_LANGUAGES
 
 # The set of dependency files which are needed:
 set(CMAKE_DEPENDS_DEPENDENCY_FILES
-  "/home/rishabh/Documents/allprojects/rishabh/library/Projects/micromouse/src/Maze.cpp" "CMakeFiles/micromouse.dir/src/Maze.cpp.o" "gcc" "CMakeFiles/micromouse.dir/src/Maze.cpp.o.d"
-  "/home/rishabh/Documents/allprojects/rishabh/library/Projects/micromouse/src/main.cpp" "CMakeFiles/micromouse.dir/src/main.cpp.o" "gcc" "CMakeFiles/micromouse.dir/src/main.cpp.o.d"
+  "/home/rishabh/library/projects/micromouse/src/Maze.cpp" "CMakeFiles/micromouse.dir/src/Maze.cpp.o" "gcc" "CMakeFiles/micromouse.dir/src/Maze.cpp.o.d"
+  "/home/rishabh/library/projects/micromouse/src/main.cpp" "CMakeFiles/micromouse.dir/src/main.cpp.o" "gcc" "CMakeFiles/micromouse.dir/src/main.cpp.o.d"
   )
 
 # Targets to which this target links which contain Fortran sources.

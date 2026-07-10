@@ -53,10 +53,10 @@ RM = /usr/bin/cmake -E rm -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /home/rishabh/Documents/allprojects/rishabh/library/Projects/micromouse
+CMAKE_SOURCE_DIR = /home/rishabh/library/projects/micromouse
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /home/rishabh/Documents/allprojects/rishabh/library/Projects/micromouse/build
+CMAKE_BINARY_DIR = /home/rishabh/library/projects/micromouse/build
 
 # Include any dependencies generated for this target.
 include CMakeFiles/micromouse.dir/depend.make
@@ -70,32 +70,32 @@ include CMakeFiles/micromouse.dir/progress.make
 include CMakeFiles/micromouse.dir/flags.make
 
 CMakeFiles/micromouse.dir/src/main.cpp.o: CMakeFiles/micromouse.dir/flags.make
-CMakeFiles/micromouse.dir/src/main.cpp.o: /home/rishabh/Documents/allprojects/rishabh/library/Projects/micromouse/src/main.cpp
+CMakeFiles/micromouse.dir/src/main.cpp.o: /home/rishabh/library/projects/micromouse/src/main.cpp
 CMakeFiles/micromouse.dir/src/main.cpp.o: CMakeFiles/micromouse.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/rishabh/Documents/allprojects/rishabh/library/Projects/micromouse/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object CMakeFiles/micromouse.dir/src/main.cpp.o"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/micromouse.dir/src/main.cpp.o -MF CMakeFiles/micromouse.dir/src/main.cpp.o.d -o CMakeFiles/micromouse.dir/src/main.cpp.o -c /home/rishabh/Documents/allprojects/rishabh/library/Projects/micromouse/src/main.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/rishabh/library/projects/micromouse/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object CMakeFiles/micromouse.dir/src/main.cpp.o"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/micromouse.dir/src/main.cpp.o -MF CMakeFiles/micromouse.dir/src/main.cpp.o.d -o CMakeFiles/micromouse.dir/src/main.cpp.o -c /home/rishabh/library/projects/micromouse/src/main.cpp
 
 CMakeFiles/micromouse.dir/src/main.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/micromouse.dir/src/main.cpp.i"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/rishabh/Documents/allprojects/rishabh/library/Projects/micromouse/src/main.cpp > CMakeFiles/micromouse.dir/src/main.cpp.i
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/rishabh/library/projects/micromouse/src/main.cpp > CMakeFiles/micromouse.dir/src/main.cpp.i
 
 CMakeFiles/micromouse.dir/src/main.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/micromouse.dir/src/main.cpp.s"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/rishabh/Documents/allprojects/rishabh/library/Projects/micromouse/src/main.cpp -o CMakeFiles/micromouse.dir/src/main.cpp.s
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/rishabh/library/projects/micromouse/src/main.cpp -o CMakeFiles/micromouse.dir/src/main.cpp.s
 
 CMakeFiles/micromouse.dir/src/Maze.cpp.o: CMakeFiles/micromouse.dir/flags.make
-CMakeFiles/micromouse.dir/src/Maze.cpp.o: /home/rishabh/Documents/allprojects/rishabh/library/Projects/micromouse/src/Maze.cpp
+CMakeFiles/micromouse.dir/src/Maze.cpp.o: /home/rishabh/library/projects/micromouse/src/Maze.cpp
 CMakeFiles/micromouse.dir/src/Maze.cpp.o: CMakeFiles/micromouse.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/rishabh/Documents/allprojects/rishabh/library/Projects/micromouse/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building CXX object CMakeFiles/micromouse.dir/src/Maze.cpp.o"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/micromouse.dir/src/Maze.cpp.o -MF CMakeFiles/micromouse.dir/src/Maze.cpp.o.d -o CMakeFiles/micromouse.dir/src/Maze.cpp.o -c /home/rishabh/Documents/allprojects/rishabh/library/Projects/micromouse/src/Maze.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/rishabh/library/projects/micromouse/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building CXX object CMakeFiles/micromouse.dir/src/Maze.cpp.o"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/micromouse.dir/src/Maze.cpp.o -MF CMakeFiles/micromouse.dir/src/Maze.cpp.o.d -o CMakeFiles/micromouse.dir/src/Maze.cpp.o -c /home/rishabh/library/projects/micromouse/src/Maze.cpp
 
 CMakeFiles/micromouse.dir/src/Maze.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/micromouse.dir/src/Maze.cpp.i"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/rishabh/Documents/allprojects/rishabh/library/Projects/micromouse/src/Maze.cpp > CMakeFiles/micromouse.dir/src/Maze.cpp.i
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/rishabh/library/projects/micromouse/src/Maze.cpp > CMakeFiles/micromouse.dir/src/Maze.cpp.i
 
 CMakeFiles/micromouse.dir/src/Maze.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/micromouse.dir/src/Maze.cpp.s"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/rishabh/Documents/allprojects/rishabh/library/Projects/micromouse/src/Maze.cpp -o CMakeFiles/micromouse.dir/src/Maze.cpp.s
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/rishabh/library/projects/micromouse/src/Maze.cpp -o CMakeFiles/micromouse.dir/src/Maze.cpp.s
 
 # Object files for target micromouse
 micromouse_OBJECTS = \
@@ -109,7 +109,7 @@ micromouse: CMakeFiles/micromouse.dir/src/main.cpp.o
 micromouse: CMakeFiles/micromouse.dir/src/Maze.cpp.o
 micromouse: CMakeFiles/micromouse.dir/build.make
 micromouse: CMakeFiles/micromouse.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --bold --progress-dir=/home/rishabh/Documents/allprojects/rishabh/library/Projects/micromouse/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Linking CXX executable micromouse"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --bold --progress-dir=/home/rishabh/library/projects/micromouse/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Linking CXX executable micromouse"
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/micromouse.dir/link.txt --verbose=$(VERBOSE)
 
 # Rule to build all files generated by this target.
@@ -121,6 +121,6 @@ CMakeFiles/micromouse.dir/clean:
 .PHONY : CMakeFiles/micromouse.dir/clean
 
 CMakeFiles/micromouse.dir/depend:
-	cd /home/rishabh/Documents/allprojects/rishabh/library/Projects/micromouse/build && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /home/rishabh/Documents/allprojects/rishabh/library/Projects/micromouse /home/rishabh/Documents/allprojects/rishabh/library/Projects/micromouse /home/rishabh/Documents/allprojects/rishabh/library/Projects/micromouse/build /home/rishabh/Documents/allprojects/rishabh/library/Projects/micromouse/build /home/rishabh/Documents/allprojects/rishabh/library/Projects/micromouse/build/CMakeFiles/micromouse.dir/DependInfo.cmake "--color=$(COLOR)"
+	cd /home/rishabh/library/projects/micromouse/build && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /home/rishabh/library/projects/micromouse /home/rishabh/library/projects/micromouse /home/rishabh/library/projects/micromouse/build /home/rishabh/library/projects/micromouse/build /home/rishabh/library/projects/micromouse/build/CMakeFiles/micromouse.dir/DependInfo.cmake "--color=$(COLOR)"
 .PHONY : CMakeFiles/micromouse.dir/depend
 
