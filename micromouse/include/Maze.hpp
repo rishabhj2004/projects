@@ -1,13 +1,6 @@
 #pragma once
 #include <vector>
-
-enum class Direction
-{
-    North,
-    East,
-    South,
-    West
-};
+#include "Direction.hpp"
 
 struct Cell{
     bool north=false;
