@@ -7,5 +7,6 @@ class SaveManager
     public:
         static void save(const SaveData& data);
         static SaveData load();
+        static bool hasSave();
 };
 

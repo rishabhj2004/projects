@@ -12,6 +12,10 @@ add_executable(platformer
     src/Animation.cpp
     src/Leveltmx.cpp
     src/SaveManager.cpp
+    src/Enemy.cpp
+    src/EnemyManager.cpp
+    src/HealthBar.cpp
+    src/enemies/Snail.cpp
 )
 add_subdirectory(external/tmxlite/tmxlite)
 target_include_directories(platformer PRIVATE include)

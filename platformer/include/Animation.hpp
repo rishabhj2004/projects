@@ -23,4 +23,5 @@ class Animation
         sf::IntRect getTextureRect() const;
         void reset();
         const sf::Texture& getTexture() const;
+        bool isFinished() const;
 };

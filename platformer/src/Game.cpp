@@ -4,24 +4,56 @@
 
 Game::Game()
     :window(sf::VideoMode(1280,720),"Platformer"),
-    gravity(980.0f),
+    gravity(700.0f),
+    respawnTimer(0.f),
+    respawnDelay(1.5f),
     level("assets/levels/level1.tmx"),
-    camera(sf::FloatRect(0.f,0.f,1280.f,720.f))
+    camera(sf::FloatRect(0.f,0.f,1280.f,720.f)),
+    cameraLookAhead(0.f)
 {
     window.setFramerateLimit(60);
     window.setKeyRepeatEnabled(false);
-    assets.loadTexture("bg","assets/textures/background.png");
+    camera.zoom(0.5f);
+
+    assets.loadShader("dissolve","assets/shaders/dissolve.frag");
+    assets.loadShader("hit","assets/shaders/hit.frag");
+
     assets.loadTexture("player_idle","assets/textures/player_idle.png");
     assets.loadTexture("player_run", "assets/textures/player_run.png");
     assets.loadTexture("player_jump","assets/textures/player_jump.png");
-    bgSprite.setTexture(assets.getTexture("bg"));
-    player.setTextures(assets.getTexture("player_idle"),assets.getTexture("player_run"),assets.getTexture("player_jump"));
-    sf::Vector2f spawn = level.getPlayerSpawn();
+    assets.loadTexture("player_attack","assets/textures/player_attack1.png");
+    assets.loadTexture("snail_walk","assets/textures/snail_walk.png");
+    assets.loadTexture("snail_death","assets/textures/snail_death.png");
+    assets.loadTexture("heart", "assets/textures/heart.png");
+    assets.loadTexture("empty_heart","assets/textures/empty_heart.png");
+    assets.loadTexture("heart_loss","assets/textures/heart_loss.png");
 
-    player.setPosition(spawn);
+    player.setTextures(assets.getTexture("player_idle"),assets.getTexture("player_run"),assets.getTexture("player_jump"), assets.getTexture("player_attack"));
+    player.setHitShader(
+        assets.getShader("hit")
+    );
+    healthBar.setTextures(
+        assets.getTexture("heart"),
+        assets.getTexture("empty_heart"),
+        assets.getTexture("heart_loss")
+    );
+    healthBar.setPosition(30.f, 30.f);
+    healthBar.setMaxHealth(player.getMaxHealth());
+    healthBar.setHealth(player.getHealth());
 
+    saveData=SaveManager::load();
+    if(SaveManager::hasSave())
+    {
+        player.setPosition(saveData.checkpoint);
+    }
+    else
+    {
+        player.setPosition(level.getPlayerSpawn());
+    }
+    sf::Vector2f spawn=player.getPosition();
+    enemyManager.loadFromLevel(level, assets);
     camera.setCenter(
-        spawn.x + 250.f,
+        spawn.x + 200.f,
         spawn.y + 100.f
     );
 }
@@ -53,6 +85,14 @@ void Game::processEvents()
             {
                 player.startJump();
             }
+            if(event.key.code==sf::Keyboard::D && !player.isInvincible())
+            {
+                player.startAttack();
+            }
+            if(event.key.code==sf::Keyboard::F5)
+            {
+                saveGame();
+            }
         }
         if(event.type==sf::Event::KeyReleased)
         {
@@ -66,22 +106,58 @@ void Game::processEvents()
 
 void Game::update(float dt)
 {
-    player.stopHorizontalMovement();
-
-    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right))
+    if (player.isDead())
     {
-        player.moveRight();
-    }
+        respawnTimer += dt;
+        healthBar.update(dt);
 
-    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left))
-    {
-        player.moveLeft();
+        if (respawnTimer >= respawnDelay)
+        {
+            sf::Vector2f spawn;
+
+            if (SaveManager::hasSave())
+            {
+                saveData = SaveManager::load();
+                spawn = saveData.checkpoint;
+            }
+            else
+            {
+                spawn = level.getPlayerSpawn();
+            }
+
+            player.respawn(spawn);
+            enemyManager.reset(level, assets);
+            respawnTimer = 0.f;
+
+            camera.setCenter(
+                spawn.x + 200.f,
+                spawn.y + 100.f
+            );
+        }
+
+        return;
     }
+    if (!(player.isAttacking() && player.isOnGround()))
+    {
+        player.stopHorizontalMovement();
+
+        if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right))
+        {
+            player.moveRight();
+        }
+
+        if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left))
+        {
+            player.moveLeft();
+        }
+    } 
 
     //horizontal movement
     player.moveHorizontal(dt);
     resolveHorizontalCollisions();
     player.updateTimers(dt);
+    player.updateAttackCooldown(dt);
+    player.updateInvincibility(dt);
     //vertical movement
     player.applyGravity(dt,gravity);
     player.moveVertical(dt);
@@ -90,17 +166,54 @@ void Game::update(float dt)
     //camera movement
     updateCamera(dt);
     player.updateSpritePosition();
+    player.updateAttackHitbox();
     player.updateAnimation(dt);
+
+    //enemy collisions
+    enemyManager.update(dt, level, gravity);
+    enemyManager.checkPlayerAttack(player);
+    enemyManager.checkEnemyPlayerCollision(player);
+    healthBar.setHealth(player.getHealth());
+    healthBar.update(dt);
 }
 
 void Game::render()
 {
     window.clear();
-    window.setView(window.getDefaultView());
-    //window.draw(bgSprite);
+
+    // World
     window.setView(camera);
+
     level.draw(window);
-    window.draw(player.getSprite());
+
+    if (player.isHitFlashing())
+    {
+        sf::Shader* shader = player.getHitShader();
+
+        if (shader)
+        {
+            window.draw(player.getSprite(), shader);
+        }
+        else
+        {
+            window.draw(player.getSprite());
+        }
+    }
+    else
+    {
+        window.draw(player.getSprite());
+    }
+
+    enemyManager.render(window);
+
+    float totalTime = absoluteClock.getElapsedTime().asSeconds();
+    level.drawPlatforms(window, totalTime);
+
+    // UI
+    window.setView(window.getDefaultView());
+
+    healthBar.draw(window);
+
     window.display();
 }
 
@@ -185,21 +298,39 @@ void Game::resolveVerticalCollisions()
 
 void Game::updateCamera(float dt)
 {
-    float lookAhead=0;
-    if(player.isFacingRight()==true)
-    {
-        lookAhead=250.f;
-    }
+    float targetLookAhead;
+
+    if (player.isFacingRight())
+        targetLookAhead = 200.f;
     else
+        targetLookAhead = -200.f;
+
+    float lookAheadSpeed = 300.f;
+
+    if (cameraLookAhead < targetLookAhead)
     {
-        lookAhead=-250.f;
+        cameraLookAhead += lookAheadSpeed * dt;
+
+        if (cameraLookAhead > targetLookAhead)
+            cameraLookAhead = targetLookAhead;
     }
-    float targetX = player.getPosition().x + lookAhead;
-    float currentX=camera.getCenter().x;
-    float currentY=camera.getCenter().y;
-    float cameraSpeed=2.f;
-    float horizontalDeadZone=100.f;
-    float verticalDeadZone=100.f;
+    else if (cameraLookAhead > targetLookAhead)
+    {
+        cameraLookAhead -= lookAheadSpeed * dt;
+
+        if (cameraLookAhead < targetLookAhead)
+            cameraLookAhead = targetLookAhead;
+    }
+
+    float targetX = player.getPosition().x + cameraLookAhead;
+
+    float currentX = camera.getCenter().x;
+    float currentY = camera.getCenter().y;
+
+    float cameraSpeed = 1.5f;
+
+    float horizontalDeadZone = 100.f;
+    float verticalDeadZone = 100.f;
 
     if (targetX > currentX + horizontalDeadZone)
     {
@@ -244,4 +375,12 @@ void Game::updateCamera(float dt)
     }
 
     camera.setCenter(currentX, currentY);
+}
+
+void Game::saveGame()
+{
+    saveData.currentRoom = "level1.tmx";
+    saveData.checkpoint = player.getPosition();
+
+    SaveManager::save(saveData);
 }

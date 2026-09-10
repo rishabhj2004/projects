@@ -4,6 +4,9 @@
 #include <vector>
 #include "assetManager.hpp"
 #include "Leveltmx.hpp"
+#include "SaveManager.hpp"
+#include "EnemyManager.hpp"
+#include "HealthBar.hpp"
 
 class Game{
     private:
@@ -13,6 +16,7 @@ class Game{
         void render();
         sf::RenderWindow window;
         Player player;
+        EnemyManager enemyManager;
         float gravity;
         void resolveHorizontalCollisions();
         void resolveVerticalCollisions();
@@ -20,6 +24,13 @@ class Game{
         assetManager assets;
         sf::Sprite bgSprite;
         Leveltmx level;
+        SaveData saveData;
+        void saveGame();
+        sf::Clock absoluteClock;
+        float cameraLookAhead;
+        float respawnTimer;
+        float respawnDelay;
+        HealthBar healthBar;
     public:
         Game();
         void run();

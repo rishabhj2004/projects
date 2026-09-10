@@ -122,6 +122,17 @@ Leveltmx::Leveltmx(const std::string& filename)
           << collisions.size()
           << '\n';
     }
+    if (sf::Shader::isAvailable())
+    {
+        platformShader.loadFromFile("assets/shaders/wind.frag", sf::Shader::Fragment);
+    
+        if (noiseTexture.loadFromFile("assets/textures/noise.png"))
+        {
+            // THIS IS VITAL for scrolling a texture indefinitely 
+            noiseTexture.setRepeated(true);
+            noiseTexture.setSmooth(true);
+        }
+    }
 }
 
 void Leveltmx::draw(sf::RenderWindow& window)
@@ -134,10 +145,8 @@ void Leveltmx::draw(sf::RenderWindow& window)
     {
         if (layer->getType() != tmx::Layer::Type::Tile)
             continue;
-        /*
-        if(layer->getName() == "Ground")
+        if(layer->getName() == "Platforms" || layer->getName() == "Ground")
             continue;
-        */
         const auto& tileLayer =
             layer->getLayerAs<tmx::TileLayer>();
 
@@ -208,6 +217,141 @@ void Leveltmx::draw(sf::RenderWindow& window)
     }
 }
 
+void Leveltmx::drawPlatforms(sf::RenderWindow& window, float totalTime)
+{
+    // Update global shader uniforms
+    if (sf::Shader::isAvailable())
+    {
+        platformShader.setUniform("time", totalTime);
+        platformShader.setUniform("texture", sf::Shader::CurrentTexture);
+        platformShader.setUniform("noiseTex", noiseTexture);
+    }
+
+    const unsigned int tileW = map.getTileSize().x;
+    const unsigned int tileH = map.getTileSize().y;
+    const unsigned int mapW = map.getTileCount().x;
+    const unsigned int mapH = map.getTileCount().y;
+
+    // Grab the "Ground" layer to use as skeleton
+    const tmx::TileLayer* groundLayer = nullptr;
+    for (const auto& layer : map.getLayers())
+    {
+        if (layer->getType() == tmx::Layer::Type::Tile && layer->getName() == "Ground")
+        {
+            groundLayer = &layer->getLayerAs<tmx::TileLayer>();
+            break;
+        }
+    }
+
+    // Iterate through the "Platforms" layer
+    for (const auto& layer : map.getLayers())
+    {
+        if (layer->getType() != tmx::Layer::Type::Tile || layer->getName() != "Platforms") continue;
+        
+        const auto& tileLayer = layer->getLayerAs<tmx::TileLayer>();
+        const auto& platformTiles = tileLayer.getTiles();
+        
+        const auto& skeletonTiles = groundLayer ? groundLayer->getTiles() : platformTiles;
+
+        for (std::size_t i = 0; i < platformTiles.size(); ++i)
+        {
+            unsigned int gid = platformTiles[i].ID;
+            if (gid == 0) continue; // Skip empty space
+
+            unsigned int x = i % mapW;
+            unsigned int y = i / mapW;
+
+            // --- NEW CHECK: Skip if overlapping Ground ---
+            if (groundLayer && skeletonTiles[y * mapW + x].ID != 0)
+            {
+                // This Platform tile sits on Ground → rigid
+                const TilesetData* tsData = nullptr;
+                for (const auto& data : tilesets) {
+                    if (gid >= data.tileset.getFirstGID()) tsData = &data;
+                }
+                if (!tsData) continue;
+
+                unsigned int idx = gid - tsData->tileset.getFirstGID();
+                unsigned int cols = tsData->tileset.getColumnCount();
+
+                sf::Sprite sprite;
+                sprite.setTexture(tsData->texture);
+                sprite.setTextureRect(sf::IntRect((idx % cols) * tileW, (idx / cols) * tileH, tileW, tileH));
+                sprite.setPosition(x * tileW, y * tileH);
+
+                window.draw(sprite); // rigid draw
+                continue;
+            }
+
+            // --- BORDER DETECTION ---
+            bool airTop    = (y == 0 || skeletonTiles[(y - 1) * mapW + x].ID == 0);
+            bool airBottom = (y == mapH - 1 || skeletonTiles[(y + 1) * mapW + x].ID == 0);
+            bool airLeft   = (x == 0 || skeletonTiles[y * mapW + (x - 1)].ID == 0);
+            bool airRight  = (x == mapW - 1 || skeletonTiles[y * mapW + (x + 1)].ID == 0);
+
+            bool isLeafTile = (airTop || airBottom || airLeft || airRight);
+
+            // Fetch texture properties
+            const TilesetData* tsData = nullptr;
+            for (const auto& data : tilesets) {
+                if (gid >= data.tileset.getFirstGID()) tsData = &data;
+            }
+            if (!tsData) continue;
+
+            unsigned int idx = gid - tsData->tileset.getFirstGID();
+            unsigned int cols = tsData->tileset.getColumnCount();
+            
+            sf::Sprite sprite;
+            sprite.setTexture(tsData->texture);
+            sprite.setTextureRect(sf::IntRect((idx % cols) * tileW, (idx / cols) * tileH, tileW, tileH));
+            sprite.setPosition(x * tileW, y * tileH);
+
+            // --- DRAWING LOGIC ---
+            if (isLeafTile && sf::Shader::isAvailable())
+            {
+                platformShader.setUniform("tilePos", sprite.getPosition());
+                platformShader.setUniform("borders", sf::Glsl::Vec4(
+                    airTop ? 1.0f : 0.0f,
+                    airBottom ? 1.0f : 0.0f,
+                    airLeft ? 1.0f : 0.0f,
+                    airRight ? 1.0f : 0.0f
+                ));
+// --- TEXTURE BLEED BOUNDARIES (HALF-PIXEL INSET) ---
+                sf::Vector2u tSize = tsData->texture.getSize();
+                
+                // 1. Get the raw, exact mathematical boundaries
+                float rawLeft   = (float)((idx % cols) * tileW) / tSize.x;
+                float rawTop    = (float)((idx / cols) * tileH) / tSize.y;
+                float rawRight  = rawLeft + ((float)tileW / tSize.x);
+                float rawBottom = rawTop + ((float)tileH / tSize.y);
+
+                // 2. Calculate exactly how large half a pixel is in UV space
+                float halfU = 0.5f / tSize.x;
+                float halfV = 0.5f / tSize.y;
+
+                // 3. Shrink the bounds inward to build an unbreakable safety wall
+                platformShader.setUniform("uvBounds", sf::Glsl::Vec4(
+                    rawLeft   + halfU, 
+                    rawTop    + halfV, 
+                    rawRight  - halfU, 
+                    rawBottom - halfV
+                ));
+                
+                window.draw(sprite, &platformShader);
+            }
+            else
+            {
+                window.draw(sprite); // rigid
+            }
+        }
+    }
+}
+
+
+
+
+
+
 float Leveltmx::getWidth() const
 {
     return map.getTileCount().x * map.getTileSize().x;
@@ -232,6 +376,7 @@ sf::Vector2f Leveltmx::getPlayerSpawn() const
         {
             if (object.getName() == "PlayerSpawn")
             {
+                std::cout<<object.getPosition().x<<" "<<object.getPosition().y<<"\n";
                 return sf::Vector2f(
                     object.getPosition().x,
                     object.getPosition().y
@@ -248,4 +393,36 @@ sf::Vector2f Leveltmx::getPlayerSpawn() const
 const std::vector<CollisionRect>& Leveltmx::getCollisions() const
 {
     return collisions;
+}
+
+std::vector<EnemySpawn> Leveltmx::getEnemySpawns() const
+{
+    std::vector<EnemySpawn> enemySpawns;
+
+    for (const auto& layer : map.getLayers())
+    {
+        if (layer->getType() != tmx::Layer::Type::Object)
+            continue;
+
+        if (layer->getName() != "Enemies")
+            continue;
+        const auto& objectLayer =
+            layer->getLayerAs<tmx::ObjectGroup>();
+
+        for (const auto& object : objectLayer.getObjects())
+        {
+            EnemySpawn spawn;
+
+            spawn.type = object.getName();
+
+            spawn.position = sf::Vector2f(
+                object.getPosition().x,
+                object.getPosition().y
+            );
+
+            enemySpawns.push_back(spawn);
+        }
+    }
+
+    return enemySpawns;
 }

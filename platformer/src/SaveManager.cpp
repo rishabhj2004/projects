@@ -41,3 +41,10 @@ SaveData SaveManager::load()
     std::cout << "Game loaded!\n";
     return data;
 }
+
+bool SaveManager::hasSave()
+{
+    std::ifstream file("save.txt");
+
+    return file.good();
+}

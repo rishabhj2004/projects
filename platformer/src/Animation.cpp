@@ -65,3 +65,8 @@ const sf::Texture& Animation::getTexture() const
 {
     return *texture;
 }
+
+bool Animation::isFinished() const
+{
+    return currentFrame == frameCount - 1;
+}
